@@ -1,8 +1,8 @@
-const express = require("express");
-const cors = require("cors");
+import express from "express";
+import cors from "cors";
 
 const app = express();
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 5001;
 
 app.use(cors()); // Allows frontend to access the backend
 app.use(express.json()); // Middleware to parse JSON
