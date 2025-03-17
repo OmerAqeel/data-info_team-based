@@ -8,7 +8,7 @@
     "build": "npm install && npm run build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "start": "node server/server.js"
+    "start": "node server.js"
   },
   "dependencies": {
     "@radix-ui/react-label": "^2.1.2",
