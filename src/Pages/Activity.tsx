@@ -7,6 +7,7 @@ import {
     TableHead,
     TableHeader,
     TableRow,
+    TableFooter
 } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
 import questionsData from './questions.json'; // Import the JSON file
@@ -20,6 +21,9 @@ const Activity = () => {
             score: number;
         }
     }>({});
+
+    // State to track total score
+    const [totalScore, setTotalScore] = useState(0);
 
     // Initialize button states when component mounts
     useEffect(() => {
@@ -79,14 +83,19 @@ const Activity = () => {
         }
 
         // Update the state
-        setButtonStates(prev => ({
-            ...prev,
+        const updatedButtonStates = {
+            ...buttonStates,
             [rowId]: {
                 colors: newColors,
                 attempts: newAttempts,
                 score: newScore
             }
-        }));
+        };
+        setButtonStates(updatedButtonStates);
+
+        // Calculate total score
+        const newTotalScore = Object.values(updatedButtonStates).reduce((sum, state) => sum + state.score, 0);
+        setTotalScore(newTotalScore);
     };
 
     return (
@@ -151,6 +160,16 @@ const Activity = () => {
                         </TableRow>
                     ))}
                 </TableBody>
+                <TableFooter>
+                    <TableRow>
+                        <TableCell colSpan={5} style={{ textAlign: "right", fontWeight: "bold", fontSize: "1.25rem" }}>
+                            Total Score:
+                        </TableCell>
+                        <TableCell style={{ textAlign: "center", fontWeight: "bold", fontSize: "1.25rem" }}>
+                            {totalScore}
+                        </TableCell>
+                    </TableRow>
+                </TableFooter>
             </Table>
         </div>
     );
