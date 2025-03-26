@@ -28,17 +28,40 @@ const Activity = () => {
 
     // Initialize button states when component mounts
     useEffect(() => {
-        const initialStates = questionsData.reduce((acc: { [key: number]: any }, question) => {
-            acc[question.id] = {
-                colors: Array(5).fill('gray'),
-                attempts: 0,
-                score: 0,
-                solved: false
-            };
-            return acc;
-        }, {});
-        setButtonStates(initialStates);
+        // Try to load saved state from localStorage
+        const savedButtonStates = localStorage.getItem('buttonStates');
+        const savedTotalScore = localStorage.getItem('totalScore');
+
+        if (savedButtonStates && savedTotalScore) {
+            // Parse and set the saved states
+            const parsedButtonStates = JSON.parse(savedButtonStates);
+            const parsedTotalScore = JSON.parse(savedTotalScore);
+            
+            setButtonStates(parsedButtonStates);
+            setTotalScore(parsedTotalScore);
+        } else {
+            // If no saved state, initialize with default states
+            const initialStates = questionsData.reduce((acc: { [key: number]: any }, question) => {
+                acc[question.id] = {
+                    colors: Array(5).fill('gray'),
+                    attempts: 0,
+                    score: 0,
+                    solved: false
+                };
+                return acc;
+            }, {});
+            setButtonStates(initialStates);
+        }
     }, []);
+
+    // Save states to localStorage whenever they change
+    useEffect(() => {
+        // Only save if buttonStates is not empty (to prevent saving during initial render)
+        if (Object.keys(buttonStates).length > 0) {
+            localStorage.setItem('buttonStates', JSON.stringify(buttonStates));
+            localStorage.setItem('totalScore', JSON.stringify(totalScore));
+        }
+    }, [buttonStates, totalScore]);
 
     // Handle button click logic
     const handleButtonClick = (rowId: number, optionIndex: number) => {
@@ -108,6 +131,27 @@ const Activity = () => {
         setTotalScore(newTotalScore);
     };
 
+    // Reset all progress
+    const handleReset = () => {
+        // Clear localStorage
+        localStorage.removeItem('buttonStates');
+        localStorage.removeItem('totalScore');
+
+        // Reset to initial state
+        const initialStates = questionsData.reduce((acc: { [key: number]: any }, question) => {
+            acc[question.id] = {
+                colors: Array(5).fill('gray'),
+                attempts: 0,
+                score: 0,
+                solved: false
+            };
+            return acc;
+        }, {});
+        
+        setButtonStates(initialStates);
+        setTotalScore(0);
+    };
+
     return (
         <div
             style={{
@@ -117,15 +161,27 @@ const Activity = () => {
                 height: "100vh",
             }}
         >
-            <h1
-                style={{
-                    textAlign: "center",
-                    fontSize: "1.5rem",
-                    marginBottom: "1rem",
-                }}
-            >
-                SCRATCH OFF BUTTONS TO EXPOSE ANSWERS
-            </h1>
+            <div style={{ 
+                display: 'flex', 
+                justifyContent: 'space-between', 
+                alignItems: 'center',
+                marginBottom: '1rem'
+            }}>
+                <h1
+                    style={{
+                        textAlign: "center",
+                        fontSize: "1.5rem",
+                    }}
+                >
+                    SCRATCH OFF BUTTONS TO EXPOSE ANSWERS
+                </h1>
+                {/* <Button 
+                    variant="destructive" 
+                    onClick={handleReset}
+                >
+                    Reset Progress
+                </Button> */}
+            </div>
 
             <Table 
                 className='table-container'
