@@ -175,12 +175,12 @@ const Activity = () => {
                 >
                     SCRATCH OFF BUTTONS TO EXPOSE ANSWERS
                 </h1>
-                {/* <Button 
+                <Button 
                     variant="destructive" 
                     onClick={handleReset}
                 >
                     Reset Progress
-                </Button> */}
+                </Button>
             </div>
 
             <Table 
