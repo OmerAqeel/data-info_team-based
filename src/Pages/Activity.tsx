@@ -19,6 +19,7 @@ const Activity = () => {
             colors: string[];
             attempts: number;
             score: number;
+            solved: boolean;
         }
     }>({});
 
@@ -31,7 +32,8 @@ const Activity = () => {
             acc[question.id] = {
                 colors: Array(5).fill('gray'),
                 attempts: 0,
-                score: 0
+                score: 0,
+                solved: false
             };
             return acc;
         }, {});
@@ -42,6 +44,10 @@ const Activity = () => {
     const handleButtonClick = (rowId: number, optionIndex: number) => {
         // Get the current state for this row
         const currentState = buttonStates[rowId];
+
+        // Prevent clicks if the row is already solved
+        if (currentState.solved) return;
+
         const selectedOption = `Option ${String.fromCharCode(65 + optionIndex)}`;
         const correctOption = questionsData.find(q => q.id === rowId)?.correct;
 
@@ -49,6 +55,7 @@ const Activity = () => {
         const newColors = [...currentState.colors];
         let newScore = currentState.score;
         let newAttempts = currentState.attempts + 1;
+        let isSolved = false;
 
         // Check if the selected option is correct
         if (selectedOption === correctOption) {
@@ -63,8 +70,9 @@ const Activity = () => {
                 newScore = 1;
             }
 
-            // Color the correct button green
+            // Color the correct button green and mark as solved
             newColors[optionIndex] = 'green';
+            isSolved = true;
         } else {
             // Color the selected button red
             newColors[optionIndex] = 'red';
@@ -79,6 +87,7 @@ const Activity = () => {
                     newColors[correctIndex] = 'green';
                 }
                 newScore = 0;
+                isSolved = true;
             }
         }
 
@@ -88,7 +97,8 @@ const Activity = () => {
             [rowId]: {
                 colors: newColors,
                 attempts: newAttempts,
-                score: newScore
+                score: newScore,
+                solved: isSolved
             }
         };
         setButtonStates(updatedButtonStates);
@@ -142,13 +152,12 @@ const Activity = () => {
                                     <Button
                                         style={{
                                             backgroundColor: buttonStates[question.id]?.colors[idx] || 'gray',
-                                            color: 'white'
+                                            color: 'white',
+                                            cursor: buttonStates[question.id]?.solved ? 'not-allowed' : 'pointer'
                                         }}
                                         className="w-full"
                                         onClick={() => handleButtonClick(question.id, idx)}
-                                        onMouseEnter={(e) => {
-                                            (e.target as HTMLElement).style.cursor = "pointer";
-                                        }}
+                                        disabled={buttonStates[question.id]?.solved}
                                     >
                                         {String.fromCharCode(65 + idx)}
                                     </Button>
