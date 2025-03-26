@@ -8,7 +8,7 @@
             "Option D",
             "Option E"
         ],
-        "correct": "Option C"
+        "correct": "Option E"
     },
     {
         "id": 2,
@@ -19,7 +19,7 @@
             "Option D",
             "Option E"
         ],
-        "correct": "Option D"
+        "correct": "Option B"
     },
     {
         "id": 3,
@@ -30,7 +30,7 @@
             "Option D",
             "Option E"
         ],
-        "correct": "Option A"
+        "correct": "Option E"
     },
     {
         "id": 4,
@@ -41,7 +41,7 @@
             "Option D",
             "Option E"
         ],
-        "correct": "Option B"
+        "correct": "Option A"
     },
     {
         "id": 5,
@@ -52,7 +52,7 @@
             "Option D",
             "Option E"
         ],
-        "correct": "Option B"
+        "correct": "Option C"
     },
     {
         "id": 6,
@@ -74,7 +74,7 @@
             "Option D",
             "Option E"
         ],
-        "correct": "Option E"
+        "correct": "Option A"
     },
     {
         "id": 8,
@@ -85,7 +85,7 @@
             "Option D",
             "Option E"
         ],
-        "correct": "Option E"
+        "correct": "Option C"
     },
     {
         "id": 9,
@@ -96,7 +96,7 @@
             "Option D",
             "Option E"
         ],
-        "correct": "Option B"
+        "correct": "Option E"
     },
     {
         "id": 10,
@@ -107,7 +107,7 @@
             "Option D",
             "Option E"
         ],
-        "correct": "Option C"
+        "correct": "Option D"
     }
    
 ]
