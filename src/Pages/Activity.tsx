@@ -28,7 +28,7 @@ const Activity = () => {
 
     // Initialize button states when component mounts
     useEffect(() => {
-        const initialStates = questionsData.reduce((acc, question) => {
+        const initialStates = questionsData.reduce((acc: { [key: number]: any }, question) => {
             acc[question.id] = {
                 colors: Array(5).fill('gray'),
                 attempts: 0,
@@ -114,6 +114,7 @@ const Activity = () => {
                 backgroundColor: "#f3f4f6",
                 padding: "1.5rem",
                 borderRadius: "0.5rem",
+                height: "100vh",
             }}
         >
             <h1
