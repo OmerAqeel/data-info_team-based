@@ -28,9 +28,9 @@ const Activity = () => {
 
     // Initialize button states when component mounts
     useEffect(() => {
-        // Try to load saved state from localStorage
-        const savedButtonStates = localStorage.getItem('buttonStates');
-        const savedTotalScore = localStorage.getItem('totalScore');
+        // Try to load saved state from sessionStorage (not localStorage)
+        const savedButtonStates = sessionStorage.getItem('buttonStates');
+        const savedTotalScore = sessionStorage.getItem('totalScore');
 
         if (savedButtonStates && savedTotalScore) {
             // Parse and set the saved states
@@ -54,12 +54,12 @@ const Activity = () => {
         }
     }, []);
 
-    // Save states to localStorage whenever they change
+    // Save states to sessionStorage whenever they change
     useEffect(() => {
         // Only save if buttonStates is not empty (to prevent saving during initial render)
         if (Object.keys(buttonStates).length > 0) {
-            localStorage.setItem('buttonStates', JSON.stringify(buttonStates));
-            localStorage.setItem('totalScore', JSON.stringify(totalScore));
+            sessionStorage.setItem('buttonStates', JSON.stringify(buttonStates));
+            sessionStorage.setItem('totalScore', JSON.stringify(totalScore));
         }
     }, [buttonStates, totalScore]);
 
@@ -131,26 +131,26 @@ const Activity = () => {
         setTotalScore(newTotalScore);
     };
 
-    // Reset all progress
-    const handleReset = () => {
-        // Clear localStorage
-        localStorage.removeItem('buttonStates');
-        localStorage.removeItem('totalScore');
-
-        // Reset to initial state
-        const initialStates = questionsData.reduce((acc: { [key: number]: any }, question) => {
-            acc[question.id] = {
-                colors: Array(5).fill('gray'),
-                attempts: 0,
-                score: 0,
-                solved: false
-            };
-            return acc;
-        }, {});
-        
-        setButtonStates(initialStates);
-        setTotalScore(0);
-    };
+        // Reset all progress
+        const handleReset = () => {
+            // Clear localStorage
+            localStorage.removeItem('buttonStates');
+            localStorage.removeItem('totalScore');
+    
+            // Reset to initial state
+            const initialStates = questionsData.reduce((acc: { [key: number]: any }, question) => {
+                acc[question.id] = {
+                    colors: Array(5).fill('gray'),
+                    attempts: 0,
+                    score: 0,
+                    solved: false
+                };
+                return acc;
+            }, {});
+            
+            setButtonStates(initialStates);
+            setTotalScore(0);
+        };
 
     return (
         <div
@@ -175,7 +175,7 @@ const Activity = () => {
                 >
                     SCRATCH OFF BUTTONS TO EXPOSE ANSWERS
                 </h1>
-                {/* <Button 
+                   {/* <Button 
                     variant="destructive" 
                     onClick={handleReset}
                 >
